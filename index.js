@@ -7,7 +7,7 @@ let listasDeTareas = [
     {
        id: '2',
        descripcion: 'hacer los talleres dedicarle 4 horas al dia a los talleres de clase',
-       estado: false
+       estado: true
     },
     {
         id: '3',
@@ -17,7 +17,7 @@ let listasDeTareas = [
     {
         id: '4',
         descripcion: 'entrar a clases de lunes a viernes hay clases a las 8 PM',
-        estado: false
+        estado: true
     }
 ];
 
@@ -26,45 +26,103 @@ const mostrarTask = () => {
     listasDeTareas.forEach((tarea) => {
         console.log(`Indicador: ${tarea.id}`);
         console.log(`Descripción: ${tarea.descripcion}`);
-        console.log(`Estado: ${tarea.estado ? 'Completada' : 'Pendiente'}`);
+        console.log(`Estado: ${tarea.estado ? 'true' : 'false'}`);
         console.log('----------------------------------');
     });
 
 }
-const completarTask = (tarea) =>{
-    tarea.estado = !tarea.estado; 
-    console.log(`Estado de la tarea "${tarea.id}" cambiado a ${tarea.estado ? 'Completada' : 'Pendiente'}`);
-}
 
-completarTask(listasDeTareas[0]);
-completarTask(listasDeTareas[3]);
+// const completarTask = async (tarea) => {
+//     try {
+//       tarea.estado = !tarea.estado;
+//       console.log(`Estado de la tarea "${tarea.id}" cambiado a ${tarea.estado ? 'true' : 'false'}`);
+//       return tarea;
+//     } catch (error) {
+//       throw error;
+//     }
+//   }
+  
+//   async function main() {
+//     try {
+//       await completarTask(listasDeTareas[0]);
+//       await completarTask(listasDeTareas[3]);
+  
+//       const añadirTarea = async () => {
+//         try {
+//           await añadirTarea('5', 'comer a tiempo ir a corde del plan de alimentación', true);
+//           await añadirTarea('6', 'ir al trabajo levantarme a las 5 AM para ir a trabajar', true);
+//           await añadirTarea('7', 'ir a la universidad los viernes y sábados hay clases en la universidad', true);
+//         } catch (error) {
+//           console.error(error);
+//         }
+//       }
+  
+//       await añadirTarea();
+  
+//       await eliminarTarea(4);
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   }
+  
+//   main();
+
+const completarTask = (tarea) =>{
+    return new Promise ((resolve, reject) => { 
+    try { tarea.estado = !tarea.estado; 
+    console.log(`Estado de la tarea "${tarea.id}" cambiado a ${tarea.estado ? 'true' : 'false'}`);
+    resolve(tarea);
+} catch(error) {
+    reject(error);
+} }); }
 
 const añadirTarea = (id, descripcion, estado) => {
-    let newtask = {
+    return new Promise ((resolve, reject) =>{
+    try { 
+        let newtask= {
         id: id,
         descripcion: descripcion,
         estado: estado
     };
     listasDeTareas.push(newtask)
-    console.log('lista de tareas agrgadas', newtask)
+    console.log('lista de tareas agrgadas', newtask);
+    resolve(newtask);
+}catch(error){
+    reject(error)
+}});
 }
-añadirTarea('5', ' comer a tiempo ir a corde del plan de alimentacion', 'true')
-añadirTarea('6', 'ir al trabajo levantarme a las 5 AM para ir a trabajar', 'true')
-añadirTarea('7', 'ir a la universidad los viernes y sabados hay clases en la universidad', 'true')
 
 const eliminarTarea = (id) => {
+    return new Promise ((resolve, reject) => {
+    try { 
     listasDeTareas = listasDeTareas.filter(item => item.id !== id);
-    console.log('tarea eliminada', id)
-
+    console.log('tarea eliminada', id);
+    resolve();
+}catch(error){
+    reject(error);
+}});
 }
-eliminarTarea(4)
 
+completarTask(listasDeTareas[0])
+.then(() => completarTask(listasDeTareas[3]))
+.then(() => {
+    return añadirTarea('5', 'comer a tiempo ir a corde del plan de alimentación', true);
+})
+.then(() => {
+    return añadirTarea('7', 'ir a la universidad los viernes y sábados hay clases en la universidad', true);
+})
+.then(()=>{
+    return eliminarTarea(4);
+})
+.catch((error) => console.log(error));
+
+const { rejects } = require('node:assert');
 const readline = require('node:readline');
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
 });
-rl.question('elige un comando: (1)mostrar tarea, (2)añadir tarea, (3)completar tarea, (4)eliminar tarea ', (respuesta) => {
+rl.question('elige un comando: (1)mostrar tareas, (2)añadir tarea, (3)completar tarea, (4)eliminar tarea ', (respuesta) => {
     console.log(`has elegido ${respuesta}`)
     switch (respuesta){
         case '1':
