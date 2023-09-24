@@ -4,11 +4,13 @@
   "description": "taller node",
   "main": "index.js",
   "scripts": {
+    "dev":"nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "JUAN ROZO",
   "license": "ISC",
   "dependencies": {
+    "nodemon": "^3.0.1",
     "readline-sync": "^1.4.10"
   }
 }
