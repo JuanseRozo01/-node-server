@@ -2,14 +2,15 @@
   "name": "project-integrador-node",
   "version": "1.0.0",
   "description": "taller node",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "dev":"nodemon app.js",
+    "dev": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "JUAN ROZO",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.18.2",
     "nodemon": "^3.0.1",
     "readline-sync": "^1.4.10"
   }

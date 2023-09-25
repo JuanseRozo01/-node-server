@@ -1,27 +1,25 @@
-const http = require('http');
-const host = 'localhost'
-const port = 8080
+const express = require('express');
+const app = express();
+const port = 5000;
 
-const listTask = [{
-    id: '1',
-    descripcion: 'sacar al perro',
-    esstado: true
-}, {
-    id:'2',
-    descripcion:'darle clases al darwin',
-    estado: true
-}, {
-    id:'3',
-    descripcion:'ir a la U',
-    estado: true
-}];
+const listaTareas = [
+    {
+        id: '1',
+        isCompleted: true,
+        descripcion:'sacar al perro'
+    },
+    {
+        id: '2',
+        isCompleted: false,
+        descripcion: 'ponerse al dia en la U'
+    }
+];
 
-const server = http.createServer((req, res) => {
-res.writeHead(200, {'content-type' : 'application/JSON'})
-res.end(JSON.stringify(listTask)) 
-
+app.get('/', (req, res) => {
+   res.json(listaTareas)
+    
 });
 
-server.listen(port, host, () => {
-    console.log(`escuchando en el ${host} : ${port}`)
+app.listen(port, () =>{
+    console.log(`estoy escuchando el puerto ${port}`);
 });
