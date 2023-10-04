@@ -5,7 +5,6 @@ const viewRouter = require('./list-view-router.js');
 const app = express();
 const port = 5000;
 
-// app.use(express.json());
 app.use((req, res, next) => {
 const validMethods = ['GET', 'POST', 'PUT', 'DELETE'];
 if(!validMethods.includes(req.method)){
