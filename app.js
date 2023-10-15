@@ -61,6 +61,12 @@ app.get('/protected', JWTValidation, (req, res) => {
     }
 });
 
+app.get('/:id', (req, res) => {
+    const tareasId = req.params.id;
+    const tareaEncontrada = tareas.find((tareas) => tareas.id === tareasId);
+    res.send({tareaEncontrada})
+  });
+
 app.post('/login', (req, res) => {
    const userName = req.body.name;
    const userInfo = users.filter((user) => {
